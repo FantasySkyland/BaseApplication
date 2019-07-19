@@ -1,9 +1,7 @@
 package com.example.base.rx;
 
-import lombok.Data;
 
 
-@Data
 public class RxEvent {
 
     private int eventType;
@@ -36,4 +34,19 @@ public class RxEvent {
 
     }
 
+    public int getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.base.base;
 
 
-import com.example.baseapplication.dialog.LoginProgressDialog;
+import com.example.base.dialog.LoginProgressDialog;
 import com.trello.navi2.component.support.NaviAppCompatActivity;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;

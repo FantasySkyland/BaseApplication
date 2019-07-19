@@ -5,7 +5,8 @@ import android.os.Looper;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
-import com.example.baseapplication.base.App;
+import com.example.base.base.App;
+
 
 /**
  * @author : sklyand

@@ -14,8 +14,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.baseapplication.R;
-import com.example.baseapplication.dialog.FocusDialog;
+
+import com.example.base.R;
+import com.example.base.dialog.FocusDialog;
 
 import butterknife.ButterKnife;
 

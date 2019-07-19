@@ -6,7 +6,7 @@ buildscript {
         maven{ url 'https://maven.aliyun.com/repository/jcenter'}
         google()
         jcenter()
-
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
@@ -22,7 +22,7 @@ allprojects {
         maven{ url 'https://maven.aliyun.com/repository/jcenter'}
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
     }
 }
 ext {
@@ -37,7 +37,7 @@ ext {
     okhttp3="3.11.0"
     rxjava="2.1.2"
     rxandroid="2.0.1"
-    rxpermissions="0.9.4@aar"
+    rxpermissions="0.10.2"
     retrofit="2.3.0"
     glide="4.8.0"
     butterknife="8.8.1"

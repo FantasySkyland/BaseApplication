@@ -21,7 +21,7 @@ public abstract class BaseFragment extends AFragment {
 
     protected View mRoot;
     protected Unbinder mRootUnbinder;
-    public RxPermissions mRxPermissions;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

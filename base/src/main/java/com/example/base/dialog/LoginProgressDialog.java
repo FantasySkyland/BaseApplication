@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.baseapplication.R;
+
+import com.example.base.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 public class LoginProgressDialog extends Dialog {
 
 
+    TextView tvLoadDesc;
+
     public LoginProgressDialog(@NonNull Context context) {
         this(context, R.style.BaseDialog);
     }
@@ -30,13 +33,10 @@ public class LoginProgressDialog extends Dialog {
     }
 
 
-    @BindView(R.id.tv_load_desc)
-    TextView tvLoadDesc;
-
 
     private void initDialog() {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_loading, null);
-        ButterKnife.bind(this, contentView);
+        tvLoadDesc = contentView.findViewById(R.id.tv_load_desc);
         setContentView(contentView);
         getWindow().setGravity(Gravity.CENTER);
         setCanceledOnTouchOutside(false);

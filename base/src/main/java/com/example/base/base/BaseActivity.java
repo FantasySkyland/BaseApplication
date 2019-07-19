@@ -1,8 +1,10 @@
 package com.example.base.base;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.example.base.util.PermissionUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.ButterKnife;
@@ -14,7 +16,6 @@ import butterknife.ButterKnife;
  * @describe ：
  */
 public abstract class BaseActivity extends AActivity {
-    public RxPermissions mRxPermissions;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

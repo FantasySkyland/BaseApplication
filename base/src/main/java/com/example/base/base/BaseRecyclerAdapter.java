@@ -3,6 +3,7 @@ package com.example.base.base;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,99 +14,160 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
+/**
+ * @author : sklyand
+ * @email : zhengdengyao@51yryc.com
+ * @time : 2019/7/18 15:47
+ * @describe ：
+ */
 
 public abstract class BaseRecyclerAdapter<Data>
         extends RecyclerView.Adapter<BaseRecyclerAdapter.ViewHolder<Data>> {
     private final List<Data> mDataList;
-    private int mHeaderViewLayout = 0;
-    private int mFooterViewLayout = 0;
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
     private int headCount = 0;
     private int footCount = 0;
-    private List<View> mFooterViews;
-    private List<View> mHeaderViews;
+    private List<Integer> mFooterViews;
+    private List<Integer> mHeaderViews;
     private int position;
+    private SparseArray<IViewHolderCreator> mHeaderViewHolders;
+    private SparseArray<IViewHolderCreator> mFooterViewHolders;
 
     /**
-     * @param headerView 添加头部
+     * @param headerViewLayout 添加头部
      */
-    public void addHeaderView(View headerView) {
-        if (headerView == null) {
-            return;
-        }
+    public <T> void addHeaderView(@LayoutRes int headerViewLayout, final T data, final DataInjector<T> dataInjector) {
         if (mHeaderViews == null) {
             mHeaderViews = new ArrayList<>();
         }
-        if (mHeaderViews.contains(headerView)) {
-            //同一个view只能添加一次 暂时只支持添加一个
-            return;
-        }
+//        if (mHeaderViews.contains(headerViewLayout)) {
+//            //同一个view只能添加一次
+//            return;
+//        }
 //        if (headerView.getLayoutParams() == null){
 //            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
 //                    headerView.getContext().getResources().getDisplayMetrics().widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
 //            headerView.setLayoutParams(layoutParams);
 //        }
 
-        mHeaderViews.add(headerView);
+        mHeaderViews.add(headerViewLayout);
+        headCount = mHeaderViews.size();
+        if (mHeaderViewHolders == null) {
+            mHeaderViewHolders = new SparseArray<>();
+        }
+        mHeaderViewHolders.put(headerViewLayout, new IViewHolderCreator<T>() {
+            @Override
+            public ViewHolder<T> create(final View root) {
+                return new ViewHolder<T>(root) {
+                    @Override
+                    protected void onBind(T t) {
+                        dataInjector.onInject(data, root);
+                    }
+                };
+            }
+        });
+        notifyItemInserted(0);
+    }
+
+    /**
+     * @param headerViewLayout 添加头部
+     */
+    public <T> void addHeaderView(@LayoutRes int headerViewLayout) {
+        if (mHeaderViews == null) {
+            mHeaderViews = new ArrayList<>();
+        }
+//        if (mHeaderViews.contains(headerViewLayout)) {
+//            //同一个view只能添加一次
+//            return;
+//        }
+//        if (headerView.getLayoutParams() == null){
+//            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+//                    headerView.getContext().getResources().getDisplayMetrics().widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            headerView.setLayoutParams(layoutParams);
+//        }
+        mHeaderViews.add(headerViewLayout);
         headCount = mHeaderViews.size();
         notifyItemInserted(0);
     }
 
-
-    public void removeHeaderView(View headerView) {
-        if (headerView == null) {
-            return;
-        }
+    /**
+     * @param headerViewLayout 如果有多个相同布局的HeaderView ，不要使用这个
+     */
+    public void removeHeaderView(@LayoutRes int headerViewLayout) {
         if (mHeaderViews != null && mHeaderViews.size() > 0) {
-            int index = mHeaderViews.indexOf(headerView);
+            int index = mHeaderViews.indexOf(headerViewLayout);
             if (index != -1) {
-                mHeaderViews.remove(headerView);
+                mHeaderViewHolders.delete(headerViewLayout);
+                mHeaderViews.remove(headerViewLayout);
                 headCount = mHeaderViews.size();
                 notifyItemRemoved(index);
             }
-
         }
-
     }
 
     /**
-     * @param footerView 增加footview
+     * @param footerViewLayout 增加footview
      */
-    public void addFooterView(View footerView) {
+    public <T> void addFooterView(@LayoutRes int footerViewLayout, final T data, final DataInjector<T> dataInjector) {
 
-        if (footerView == null) {
-            return;
-        }
 
         if (mFooterViews == null) {
             mFooterViews = new ArrayList<>();
         }
-        if (mFooterViews.contains(footerView) || mFooterViews.size() > 1) {
-            //同一个view只能添加一次   暂时只支持添加一个
+        if (mFooterViews.contains(footerViewLayout)) {
+            //同一个view只能添加一次
             return;
         }
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        footerView.setLayoutParams(layoutParams);
-        mFooterViews.add(footerView);
+//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        footerView.setLayoutParams(layoutParams);
+        mFooterViews.add(footerViewLayout);
         footCount = mFooterViews.size();
-
+        if (mFooterViewHolders == null) {
+            mFooterViewHolders = new SparseArray<>();
+        }
+        mFooterViewHolders.put(footerViewLayout, new IViewHolderCreator<T>() {
+            @Override
+            public ViewHolder<T> create(final View root) {
+                return new ViewHolder<T>(root) {
+                    @Override
+                    protected void onBind(T t) {
+                        dataInjector.onInject(data, root);
+                    }
+                };
+            }
+        });
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void removeFooterView(View footerView) {
-
-        if (footerView == null) {
+    /**
+     * @param footerViewLayout 增加footview
+     */
+    public void addFooterView(@LayoutRes int footerViewLayout) {
+        if (mFooterViews == null) {
+            mFooterViews = new ArrayList<>();
+        }
+        if (mFooterViews.contains(footerViewLayout)) {
+            //同一个view只能添加一次
             return;
         }
+        mFooterViews.add(footerViewLayout);
+        footCount = mFooterViews.size();
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    /**
+     * @param footerViewLayout 如果有多个相同布局的FooterView ，不要使用这个
+     */
+    public void removeFooterView(@LayoutRes int footerViewLayout) {
         if (mFooterViews != null && mFooterViews.size() > 0) {
-            int index = mFooterViews.indexOf(footerView);
+            int index = mFooterViews.indexOf(footerViewLayout);
             if (index != -1) {
+                mFooterViewHolders.delete(footerViewLayout);
                 int oldSize = mFooterViews.size();
-                mFooterViews.remove(footerView);
+                mFooterViews.remove(footerViewLayout);
                 footCount = mFooterViews.size();
                 int notify = getItemCount() - oldSize + index + 1;//加1 是因为getItemCount() 这时已经减了1
                 notifyItemRemoved(notify);
@@ -165,19 +227,38 @@ public abstract class BaseRecyclerAdapter<Data>
      */
     @Override
     public ViewHolder<Data> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 得到LayoutInflater用于把XML初始化为View
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View root = null;
         if (viewType == TYPE_HEADER) {
-            root = mHeaderViews.get(headCount - position - 1);
-            ViewHolder headerHolder = new BaseHolder(root);
-            headerHolder.setIsRecyclable(false);
-            return headerHolder;
+            int layout = mHeaderViews.get(headCount - position - 1);
+            root = inflater.inflate(layout, parent, false);
+            if (mHeaderViewHolders == null) {
+                return new BaseHolder(root);
+            } else {
+                IViewHolderCreator viewHolderCreator = mHeaderViewHolders.get(layout);
+                if (viewHolderCreator != null) {
+                    return viewHolderCreator.create(root);
+                } else {
+                    return new BaseHolder(root);
+                }
+
+            }
         } else if (viewType == TYPE_FOOTER) {
-            root = mFooterViews.get(mFooterViews.size() + position - getItemCount());
-            ViewHolder footerHolder = new BaseHolder(root);
-            return footerHolder;
+            int layout = mFooterViews.get(mFooterViews.size() + position - getItemCount());
+            root = inflater.inflate(layout, parent, false);
+            if (mFooterViewHolders == null) {
+                return new BaseHolder(root);
+            } else {
+                IViewHolderCreator viewHolderCreator = mFooterViewHolders.get(layout);
+                if (viewHolderCreator != null) {
+                    return viewHolderCreator.create(root);
+                } else {
+                    return new BaseHolder(root);
+                }
+
+            }
         } else {
-            // 得到LayoutInflater用于把XML初始化为View
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             // 把XML id为viewType的文件初始化为一个root View
             root = inflater.inflate(viewType, parent, false);
             // 通过子类必须实现的方法，得到一个ViewHolder
@@ -242,13 +323,7 @@ public abstract class BaseRecyclerAdapter<Data>
      *
      * @param data Data
      */
-    public void addNormal(Data data) {
-//        for (Data data1 : mDataList) {
-//            if (data1.compareTo(data) == 0) {
-//                return;
-//            }
-//        }
-
+    public void add(Data data) {
         mDataList.add(data);
         notifyItemInserted(getItemCount());
     }
@@ -272,9 +347,10 @@ public abstract class BaseRecyclerAdapter<Data>
      * @param data Data
      */
     public void update(Data data, int position) {
-        mDataList.set(position - headCount , data);
+        mDataList.set(position - headCount, data);
         notifyItemChanged(position);
     }
+
     /**
      * 刷新一条数据并从最新插入
      *
@@ -283,7 +359,7 @@ public abstract class BaseRecyclerAdapter<Data>
     public void updateFromEnd(Data data, int position) {
         mDataList.remove(position - headCount);
         mDataList.add(data);
-        notifyItemChanged(mDataList.size()-1);
+        notifyItemChanged(mDataList.size() - 1);
     }
 
     /**
@@ -291,7 +367,7 @@ public abstract class BaseRecyclerAdapter<Data>
      *
      * @param dataList Data
      */
-    public void addFromStarNormal(List<Data> dataList) {
+    public void addFromStar(List<Data> dataList) {
 
         if (dataList == null) {
             return;
@@ -312,7 +388,7 @@ public abstract class BaseRecyclerAdapter<Data>
      *
      * @param dataList Data
      */
-    public void addNormal(List<Data> dataList) {
+    public void add(List<Data> dataList) {
         if (dataList == null) {
             return;
         }
@@ -382,6 +458,7 @@ public abstract class BaseRecyclerAdapter<Data>
     public static class RecyclerItem {
         public RecyclerItem() {
         }
+
         public RecyclerItem(int type, Object data) {
             this.type = type;
             this.data = data;
@@ -391,6 +468,7 @@ public abstract class BaseRecyclerAdapter<Data>
 
         public Object data;
     }
+
     class BaseHolder extends ViewHolder {
 
         BaseHolder(View itemView) {
@@ -401,6 +479,18 @@ public abstract class BaseRecyclerAdapter<Data>
         protected void onBind(Object o) {
 
         }
+    }
+
+    public interface DataInjector<T> {
+        void onInject(T data, View root);
+    }
+
+    private interface IViewHolderCreator<T> {
+        ViewHolder<T> create(View root);
+    }
+
+    public static class BaseData {
+
     }
 
 }

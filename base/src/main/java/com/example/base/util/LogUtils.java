@@ -2,7 +2,8 @@ package com.example.base.util;
 
 import android.util.Log;
 
-import com.example.baseapplication.BuildConfig;
+import com.example.base.BuildConfig;
+
 
 /**
  * @author : sklyand

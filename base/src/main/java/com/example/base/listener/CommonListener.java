@@ -1,13 +1,12 @@
 package com.example.base.listener;
 
-import com.jhss.youguu.common.pojo.RootPojo;
 
 /**
  * @Author zhengdengyao
  * @Created 2018/12/12 0012
  * @Description
  */
-public interface  CommonListener<T extends RootPojo> {
+public interface  CommonListener<T > {
     /**
      * 接口请求成功
      * @param obj 接口返回的数据
@@ -18,5 +17,5 @@ public interface  CommonListener<T extends RootPojo> {
      * 接口请求失败
      * @param obj 错误数据
      */
-    void onError(RootPojo obj);
+    void onError(T obj);
 }
