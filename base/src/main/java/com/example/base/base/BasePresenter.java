@@ -1,5 +1,7 @@
 package com.example.base.base;
 
+import com.example.base.retrofit.ApiService;
+import com.example.base.retrofit.RetrofitServiceCreator;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -11,7 +13,9 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 public abstract class BasePresenter<View extends BaseContract.View> implements BaseContract.Presenter<View>{
     protected View view;
     protected LifecycleProvider<ActivityEvent> mProvider = null;
+    protected ApiService api;
     public BasePresenter(View view) {
+        api = RetrofitServiceCreator.createServcie(ApiService.class);
         attachView(view);
     }
 
