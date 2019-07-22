@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.base.base.BaseActivity;
 import com.example.base.base.BaseRecyclerAdapter;
+import com.example.base.rx.RxEvent;
 import com.example.base.util.PermissionUtil;
 
 import java.util.ArrayList;
@@ -66,6 +67,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void handleDefaultEvent(RxEvent event) {
 
     }
 }
