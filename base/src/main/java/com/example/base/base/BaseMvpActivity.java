@@ -21,20 +21,9 @@ public abstract class BaseMvpActivity<Presenter extends BaseContract.Presenter> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(setLayoutRes());
         setPresenter(initPresenter(),mProvider);
-        init();
     }
 
-    /**
-     * 初始化
-     */
-    protected abstract void init();
-
-    /**
-     * @return xml文件
-     */
-    protected abstract @LayoutRes int setLayoutRes();
 
     /**
      * @return 初始化presenter
