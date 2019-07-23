@@ -49,7 +49,7 @@ public class RetrofitServiceCreator {
         if (BuildConfig.DEBUG) {
             clientBuilder
                     //.addInterceptor(new CommonInterceptor())
-                    //.addInterceptor(new AddTokenInterceptor(context))
+                    //.addInterceptor(new AddTokenInterceptor())
                     .addInterceptor(new PrintLogInterceptor());
                     //.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         }
@@ -136,11 +136,6 @@ public class RetrofitServiceCreator {
      * Header 添加 token
      */
     public static class AddTokenInterceptor implements Interceptor {
-        Context context;
-        public AddTokenInterceptor(Context context) {
-            this.context = context;
-        }
-
         @Override
         public Response intercept(Chain chain) throws IOException {
             String token = "11";
