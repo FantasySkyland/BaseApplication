@@ -22,7 +22,8 @@ public class App extends MultiDexApplication {
 
     public static Set<Activity> sAllActivities;
 
-    private static Context context ;
+
+    private static App context ;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -41,7 +42,7 @@ public class App extends MultiDexApplication {
         ARouter.init(this);
     }
 
-    public static Context getInstant(){
+    public static App getInstant(){
         return context;
     }
 
