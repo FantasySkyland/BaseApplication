@@ -1,4 +1,4 @@
-package com.example.base.base;
+package com.example.base.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,9 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 import com.example.base.R;
-import com.example.base.dialog.FocusDialog;
 
 import butterknife.ButterKnife;
 
