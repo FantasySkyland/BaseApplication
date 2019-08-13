@@ -1,6 +1,7 @@
 package com.example.baseapplication;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.example.base.base.BaseActivity;
 import com.example.base.base.BaseRecyclerAdapter;
 import com.example.base.rx.RxEvent;
 import com.example.base.util.PermissionUtil;
+import com.example.baseapplication.dagger2.Dagger2Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +46,15 @@ public class MainActivity extends BaseActivity {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PermissionUtil.requestPermissionEach(MainActivity.this, new PermissionUtil.EachPermissionListenerImp() {
-                            @Override
-                            public void onEachGranted(String permission) {
-                                super.onEachGranted(permission);
-                            }
-                        }, Manifest.permission.CAMERA);
+//                        PermissionUtil.requestPermissionEach(MainActivity.this, new PermissionUtil.EachPermissionListenerImp() {
+//                            @Override
+//                            public void onEachGranted(String permission) {
+//                                super.onEachGranted(permission);
+//                            }
+//                        }, Manifest.permission.CAMERA);
+
+                        Intent intent = new Intent(MainActivity.this, Dagger2Activity.class);
+                        startActivity(intent);
                     }
                 });
             }
