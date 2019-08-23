@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RecyclerIndexBar">
+        <!--set number of item displayed, default is 3-->
+        <attr name="textSize" format="reference|dimension" />
+        <!--set if show divider, default is true-->
+        <attr name="csv_ShowDivider" format="reference|boolean" />
+        <attr name="csv_DividerColor" format="reference|color" />
+        <attr name="csv_TextColorNormal" format="reference|color" />
+        <attr name="csv_TextColorSelected" format="reference|color" />
+        <attr name="csv_TextColorHint" format="reference|color" />
+        <attr name="csv_TextSizeNormal" format="reference|dimension" />
+        <attr name="csv_TextSizeSelected" format="reference|dimension" />
+        <attr name="csv_TextSizeHint" format="reference|dimension" />
+        <attr name="csv_TextArray" format="reference" />
+        <attr name="csv_WrapSelectorWheel" format="reference|boolean" />
+    </declare-styleable>
+</resources>

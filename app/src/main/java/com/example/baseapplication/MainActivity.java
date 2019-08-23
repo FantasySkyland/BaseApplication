@@ -65,6 +65,13 @@ public class MainActivity extends BaseActivity {
             public void onInject(Integer data, View root) {
                 TextView textView = root.findViewById(R.id.tv_test);
                 textView.setText(String.valueOf(data));
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomViewActivity.start(MainActivity.this);
+
+                    }
+                });
             }
         });
 

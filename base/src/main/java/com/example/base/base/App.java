@@ -39,7 +39,7 @@ public class App extends MultiDexApplication {
             ARouter.openLog();
             ARouter.openDebug();
         }
-        ARouter.init(this);
+        //ARouter.init(this);
     }
 
     public static App getInstant(){
